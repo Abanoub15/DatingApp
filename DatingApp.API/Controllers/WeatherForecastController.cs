@@ -39,7 +39,7 @@ namespace DatingApp.API.Controllers
         //     })
         //     .ToArray();
         // }
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetValues(){
             return Ok(_context.Values.ToList());
