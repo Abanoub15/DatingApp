@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API.Controllers
 {
-     
+
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -49,23 +49,24 @@ namespace DatingApp.API.Controllers
                 return Unauthorized();
 
             var clamis = new[]
-            {
+                            {
                     new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
                     new Claim(ClaimTypes.Name,userFromRepo.UserName)
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8
                         .GetBytes(_config.GetSection("AppSettings:Token").Value));
-            var creds= new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                    Subject=new ClaimsIdentity(clamis),
-                    Expires = DateTime.Now.AddDays(1),
-                    SigningCredentials=creds
+                Subject = new ClaimsIdentity(clamis),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
             };
-            var tokenHandeler=new JwtSecurityTokenHandler();
+            var tokenHandeler = new JwtSecurityTokenHandler();
             var token = tokenHandeler.CreateToken(tokenDescriptor);
-            return Ok(new{
-                token=tokenHandeler.WriteToken(token)
+            return Ok(new
+            {
+                token = tokenHandeler.WriteToken(token)
             });
         }
     }
